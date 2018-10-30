@@ -3,6 +3,8 @@ import glob
 from time import sleep
 
 # load sent pics from piclist.csv
+from scripts.bilderbot import send_pictures
+
 pic_list = []
 with open("../piclist.csv") as f:
     reader = csv.reader(f)
@@ -38,9 +40,11 @@ def send_new_pics(new_pics):
     print("sending new pics: " + str(new_pics))
     add_to_list(new_pics)
 
+
     '''
-    HIER SENDE new_pics AN TELEGRAM GRUPPE
+    HIER SENDE new_pics AN TELEGRAM GRUPPE ÜBER BOT
     '''
+    send_pictures(new_pics)
 
 
 def main():
