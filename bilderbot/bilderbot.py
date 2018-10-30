@@ -1,7 +1,13 @@
+import csv
 import glob
 from time import sleep
 
+# load sent pics from piclist.csv
 pic_list = []
+with open("../piclist.csv") as f:
+    reader = csv.reader(f)
+    for row in reader:
+        pic_list.append(row[0])
 
 
 # Python code t get difference of two lists
@@ -11,31 +17,33 @@ def diff(read_pics, saved_pics):
 
 
 def get_new_pics():
-    print("get pics")
     pics = glob.glob("../bilder/*")
 
     new_pics = diff(pics, pic_list)
-
     print("new pics: " + str(new_pics))
 
     return new_pics
 
 
 def add_to_list(new_pics):
-    with open("../piclist.txt") as f:
+    with open("../piclist.csv", "a") as f:
+        writer = csv.writer(f)
+
         for pic in new_pics:
-            f.write(str(pic))
+            writer.writerow([pic])
+        pic_list.append(new_pics[0])
 
 
 def send_new_pics(new_pics):
     print("sending new pics: " + str(new_pics))
     add_to_list(new_pics)
 
+    '''
+    HIER SENDE new_pics AN TELEGRAM GRUPPE
+    '''
+
 
 def main():
-    with open("../piclist.txt") as f:
-        pic_list = f.readlines()
-
     print(pic_list)
 
     while True:
@@ -45,7 +53,8 @@ def main():
             send_new_pics(new_pics)
         else:
             print("no new pics found")
-            sleep(3)
+
+        sleep(3)
 
 
 if __name__ == "__main__":
