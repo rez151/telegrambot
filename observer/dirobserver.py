@@ -1,4 +1,5 @@
 import csv
+import datetime
 import glob
 from time import sleep
 
@@ -33,7 +34,8 @@ def add_to_list(new_pics):
         writer = csv.writer(f)
 
         for pic in new_pics:
-            writer.writerow([pic])
+            time = datetime.datetime.now()
+            writer.writerow([pic, time])
         pic_list.append(new_pics[0])
 
 
